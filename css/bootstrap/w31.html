@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+<title>javascript lannguage</title>
+</head>
+<body>
+<form method="get">
+<center><h3>Students' Marks</h3>
+<div class="blocks">
+<span class="lab">
+Student Name:
+</span>
+<span>
+<select id="stu" >
+<option>James</option>
+<option>Brown</option>
+<option>Alex</option>
+<option>Richard</option>
+<option>George</option>
+</select>
+</span>
+</div>
+<div class="blocks">
+<span class="lab">
+<h3>Science</h3>
+</span>
+<span>
+<input id="sci"type="text" size=10"/>
+</span>
+</div>
+<div class="blocks">
+<span class="lab">
+<h3>history</h3>
+</span>
+<span>
+<input id="his"type="text" size=10"/>
+</span>
+</div>
+<div class="blocks">
+<span class="lab">
+<h3>Mathematics:</h3>
+</span>
+<span>
+<input id="math"type="text" size=10"/>
+</span>
+</div>
+<div class="blocks">
+<span class="lab">
+<h3>english:</h3>
+</span>
+<span>
+<input id="eng"type="text" size=10"/>
+</span>
+</div>
+<div class="blocks">
+<span class="lab">
+<h3>geography:</h3>
+</span>
+<span>
+<input id="geo"type="text" size=10"/>
+</span>
+</div>
+<div class="blocks">
+<span class="buttons">
+<input id="btn" type="button" value="submit" onclick="
+if(stu.value=='select')
+{
+     alert('select the student name');
+stu.focus();
+return false;
+}
+if(sci.value==''|| isNaN(sci.value))
+{
+     alert('enter marks for science');
+sci.focus();
+return false;
+}
+if(his.value==''|| isNaN(his.value))
+{
+     alert('enter marks for history');
+his.focus();
+return false;
+}
+if(math.value==''|| isNaN(math.value))
+{
+     alert('enter marks for math');
+math.focus();
+return false;
+}
+if(eng.value==''|| isNaN(eng.value))
+{
+     alert('enter marks for english');
+eng.focus();
+return false;
+}
+if(geo.value==''|| isNaN(geo.value))
+{
+     alert('enter marks for geography');
+geo.focus();
+return false;
+}
+var student=stu.value;
+var tot=0;
+var marks=new Array();
+marks[0]=parseInt(sci.value);
+marks[1]=parseInt(his.value);
+marks[2]=parseInt(math.value);
+marks[3]=parseInt(eng.value);
+marks[4]=parseInt(geo.value);
+var studentwindow=window.document;
+studentwindow.writeln('<html>');
+studentwindow.writeln('<head>');
+studentwindow.writeln('<title>student academic records</title>');
+studentwindow.writeln('<llink rel=stylesheet href=Mark.css  type=text/css/>');
+studentwindow.writeln('</head>');
+studentwindow.writeln('<body>');
+studentwindow.writeln('<tr>');
+studentwindow.writeln('<h3>students\ performance</h3><br/>');
+studentwindow.writeln('<table width=100%>');
+studentwindow.writeln('<tr>');
+studentwindow.writeln('<td></td>');
+studentwindow.writeln('<td>science</td>');
+studentwindow.writeln('<td>history</td>')
+studentwindow.writeln('<td>math</td>')
+studentwindow.writeln('<td>english</td>')
+studentwindow.writeln('<td>geography</td>')
+studentwindow.writeln('<td>total marks</td>')
+studentwindow.writeln('</tr>')
+studentwindow.writeln('<tr>')
+studentwindow.writeln('<td>'+stu+'</td>');
+for(var student=0;student!=marks.length;student++)
+{
+studentwindow.writeln('<td>'+ marks[student]+'</td>');
+totalMarks=totalMarks+marks[student];
+}
+studentwindow.writeln('<td>'+ tot+'</td>');
+studentwindow.writeln('</tr>');
+studentwindow.writeln('</table>');
+studentwindow.writeln('</body>');
+studentwindow.writeln('</html>');
+"/>
+<input id="but"type="reset" value="reset"/>
+</span>
+</div>
+</form>
+</body>
+<html>
