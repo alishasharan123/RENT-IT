@@ -1,9 +1,11 @@
 <?php
+session_start();
 include("includes/db.php");
 include("functions/functions.php");
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <title>RENT NOW</title>
 <!-- for-mobile-apps -->
@@ -308,18 +310,22 @@ echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
 		</div>
 	</div>
 <!-- //header -->
+
+
+
+
+
+
+
 <div id="product_box">
+
 <?php
+getitempro();
 if(isset($_GET['search']))
 {
 $user_keyword=$_GET['user_query'];
 $get_products="select * from products where product_keywords like '%$user_keyword%'";
 $run_products=mysqli_query($db ,$get_products);
-$count=mysqli_num_rows($run_products);
-if($count==0)
-{
-echo "<h2>no products found in this category!</h2>";
-}
 while($row_products=mysqli_fetch_array($run_products)){
 $pro_id=$row_products['product_id'];
 $pro_title=$row_products['product_title'];
@@ -333,7 +339,7 @@ echo"
 <h3>$pro_title</h3>
 <img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
 <p><b>price:$pro_price</b></p>
-<a href='single.php?pro_id=$pro_id' style='float:left;'> details</a>
+<a href='det1.php?pro_id=$pro_id' style='float:left;'> details</a>
 <a href='index.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
 </div>
 ";
@@ -342,6 +348,9 @@ echo"
 ?>
 
 </div>
+
+<pre>
+</pre>
 <!-- footer -->
 	<div class="footer">
 		<div class="container">

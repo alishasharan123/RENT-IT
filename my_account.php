@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("includes/db.php");
 include("functions/functions.php");
 ?>
@@ -308,40 +309,80 @@ echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
 		</div>
 	</div>
 <!-- //header -->
-<div id="product_box">
-<?php
-if(isset($_GET['search']))
-{
-$user_keyword=$_GET['user_query'];
-$get_products="select * from products where product_keywords like '%$user_keyword%'";
-$run_products=mysqli_query($db ,$get_products);
-$count=mysqli_num_rows($run_products);
-if($count==0)
-{
-echo "<h2>no products found in this category!</h2>";
-}
-while($row_products=mysqli_fetch_array($run_products)){
-$pro_id=$row_products['product_id'];
-$pro_title=$row_products['product_title'];
-$pro_cat=$row_products['cat_id'];
-$pro_item=$row_products['item_id'];
-$pro_desc=$row_products['product_desc'];
-$pro_price=$row_products['product_price'];
-$pro_image=$row_products['product_img1'];
-echo"
-<div id='single_product'>
-<h3>$pro_title</h3>
-<img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
-<p><b>price:$pro_price</b></p>
-<a href='single.php?pro_id=$pro_id' style='float:left;'> details</a>
-<a href='index.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
+
+
+<div class="row">
+<ul id="cats">
+  <div class="col-sm-3"><li><a href="my_account.php?order">MY ORDERS</a></li></div>
+  <div class="col-sm-3"><li><a href="my_account.php?edit_account">EDIT ACCOUNT</a></li></div>
+<div class="col-sm-3"><li><a href="my_account.php?change_pass">CHANGE PASSWORD</a></li></div>
+<div class="col-sm-3"><li><a href="my_account.php?delete_account">DELETE ACCOUNT</a></li></div>
+</ul>
 </div>
-";
+
+<?php
+global $db;
+$user=$_SESSION['customer_email'];
+$get_name="select * from customers where customer_email='$user'";
+$run_name=mysqli_query($db,$get_name);
+$row_name=mysqli_fetch_array($run_name);
+$c_name=$row_name['customer_name'];
+?>
+
+<?php
+if(isset($_GET['edit_account']))
+{
+include("edit_account.php" );
+
 }
+if(isset($_GET['change_pass']))
+{
+include("change_pass.php" );
+
+}
+
+if(isset($_GET['delete_account']))
+{
+include("delete_account.php" );
+
 }
 ?>
 
-</div>
+
+<?php
+global $db;
+if(isset($_GET['order']))
+{
+
+$user=$_SESSION['customer_email'];
+$get_name="select * from shipping where customer_email='$user'";
+$run_name=mysqli_query($db,$get_name);
+$row_name=mysqli_fetch_array($run_name);
+$p_id=$row_name['product_id'];
+$get_p="select * from products where product_id='$p_id'";
+$run_p=mysqli_query($db,$get_p);
+$row_p=mysqli_fetch_array($run_p);
+$p_tit=$row_p['product_title'];
+$p_img=$row_p['product_img1'];
+$p_desc=$row_p['product_desc'];
+$p_pri=$row_p['product_price'];
+
+
+echo "<h1>".$p_tit."</h1>";
+echo "<br>";
+
+echo $p_desc;
+echo "<br>";
+echo 'Rs'. $p_pri;
+echo "<br>";
+echo "<br>";
+
+}
+?>
+
+
+<br>
+
 <!-- footer -->
 	<div class="footer">
 		<div class="container">
@@ -371,7 +412,7 @@ echo"
 				<div class="clearfix"> </div>
 			</div>
 			<div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
-				<h2><a href="index.html">Rent It <span>rent anything</span></a></h2>
+				<h2><a href="index.php">Rent It <span>rent anything</span></a></h2>
 			</div>
 			<div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
 				
@@ -379,6 +420,5 @@ echo"
 		</div>
 	</div>
 <!-- //footer -->
-
 </body>
 </html>

@@ -1,10 +1,11 @@
 <?php
+session_start();
 include("includes/db.php");
 include("functions/functions.php");
 ?>
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
+
 <title>RENT NOW</title>
 <!-- for-mobile-apps -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -78,17 +79,7 @@ echo"<a href='logout.php' style='color:skyblue;'>LOGOUT</a>";
 
 						<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="customer_register.php">SIGN UP</a></li>
 
-<li><?php
-if(isset($_SESSION['customer_email']))
-{
-echo "<i class='glyphicon glyphicon-book' aria-hidden='true'></i><a href='my_account.php'>MY ACCOUNT</a>";
-}
-else
-{
-echo "<i class='glyphicon glyphicon-book' aria-hidden='true'></i><a href='check.php'>MY ACCOUNT</a>";
-}
-?>
-</li>
+<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="my_account.php">MY ACCOUNT</a></li>
 
 <li> <?php
 if(isset($_SESSION['customer_email']))
@@ -251,16 +242,7 @@ $item_title=$row_item['item_title'];
 								</ul>
 							</li>
 							<li class="dropdown">
-							<li>    <?php
-if(isset($_SESSION['customer_email']))
-{
-echo "<a href='adindex.php'>RENT YOUR ITEMS</a>";
-}
-else
-{
-echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
-}
-?></li>
+							<li><a href="adindex.php">RENT YOUR items</a></li>
 
 						</ul>
 					</div>
@@ -308,40 +290,26 @@ echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
 		</div>
 	</div>
 <!-- //header -->
-<div id="product_box">
+<pre>
+
+</pre>
+
 <?php
-if(isset($_GET['search']))
-{
-$user_keyword=$_GET['user_query'];
-$get_products="select * from products where product_keywords like '%$user_keyword%'";
-$run_products=mysqli_query($db ,$get_products);
-$count=mysqli_num_rows($run_products);
-if($count==0)
-{
-echo "<h2>no products found in this category!</h2>";
-}
-while($row_products=mysqli_fetch_array($run_products)){
-$pro_id=$row_products['product_id'];
-$pro_title=$row_products['product_title'];
-$pro_cat=$row_products['cat_id'];
-$pro_item=$row_products['item_id'];
-$pro_desc=$row_products['product_desc'];
-$pro_price=$row_products['product_price'];
-$pro_image=$row_products['product_img1'];
-echo"
-<div id='single_product'>
-<h3>$pro_title</h3>
-<img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
-<p><b>price:$pro_price</b></p>
-<a href='single.php?pro_id=$pro_id' style='float:left;'> details</a>
-<a href='index.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
-</div>
-";
-}
-}
+ $ip=getIp();
 ?>
 
+<div id="product_box">
+<?php 
+if(!isset($_SESSION['customer_email']))
+{
+include("customer_login.php");
+}
+?>
 </div>
+<br>
+<br>
+<br>
+<br>
 <!-- footer -->
 	<div class="footer">
 		<div class="container">

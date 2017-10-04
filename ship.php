@@ -1,6 +1,7 @@
 <?php
 include("includes/db.php");
 include("functions/functions.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -308,40 +309,53 @@ echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
 		</div>
 	</div>
 <!-- //header -->
-<div id="product_box">
-<?php
-if(isset($_GET['search']))
-{
-$user_keyword=$_GET['user_query'];
-$get_products="select * from products where product_keywords like '%$user_keyword%'";
-$run_products=mysqli_query($db ,$get_products);
-$count=mysqli_num_rows($run_products);
-if($count==0)
-{
-echo "<h2>no products found in this category!</h2>";
-}
-while($row_products=mysqli_fetch_array($run_products)){
-$pro_id=$row_products['product_id'];
-$pro_title=$row_products['product_title'];
-$pro_cat=$row_products['cat_id'];
-$pro_item=$row_products['item_id'];
-$pro_desc=$row_products['product_desc'];
-$pro_price=$row_products['product_price'];
-$pro_image=$row_products['product_img1'];
-echo"
-<div id='single_product'>
-<h3>$pro_title</h3>
-<img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
-<p><b>price:$pro_price</b></p>
-<a href='single.php?pro_id=$pro_id' style='float:left;'> details</a>
-<a href='index.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
-</div>
-";
-}
-}
-?>
+<form method="POST" action="ship.php" enctype="multipart/form-data">
+<table width="700" align="center" border="2" bgcolor="#336633">
+<tr>
+<td colspan="2"><h2>INSERT YOUR SHIPPING DETAILS :</h2></td>
+</tr>
 
-</div>
+<tr>
+<td>CUSTOMER COUNTRY: </td>
+<td>
+<select name="customer_country">
+<option>select a category</option>
+<option>INDIA</option>
+<option>PAKISTAN</option>
+<option>AFGHANISTAN</option>
+
+<option>CHINA</option>
+
+
+</select>
+
+</td>
+</tr>
+
+<tr>
+<td>CUSTOMER STATE:</td>
+<td><input type="text"name="customer_state"/></td>
+</tr>
+<tr>
+<td>CUSTOMER ADDRESS</td>
+<td><textarea name="customer_address" rows="10"col="20"></textarea></td>
+</tr>
+<tr>
+<td>CUSTOMER LANDMARK</td>
+<td><input type="text"name="customer_landmark" size="50"/></td>
+</tr>
+<tr>
+<td>CUSTOMER CONTACT</td>
+<td><input type="text"name="customer_contact" size="50"/></td>
+</tr>
+</table>
+<p align="center">
+<button type="submit" name="insert_det" class="button"><span>INSERT DETAILS</span></button>
+
+
+</form>
+
+<a href="index.php">GO BACK</a>
 <!-- footer -->
 	<div class="footer">
 		<div class="container">
@@ -379,6 +393,39 @@ echo"
 		</div>
 	</div>
 <!-- //footer -->
-
 </body>
 </html>
+
+<?php
+
+global $db;
+if(isset($_POST['insert_det']))
+{
+
+ $cust_country=$_POST['customer_country'];
+
+$cust_state=$_POST['customer_state'];
+$cust_address=$_POST['customer_address'];
+$cust_landmark=$_POST['customer_landmark'];
+$cust_contact=$_POST['customer_contact'];
+$status='on';
+
+if($cust_country=='' OR $cust_state=='' OR $cust_address=='' OR $cust_landmark==''  OR $cust_contact=='')
+{
+echo "<script type='text/javascript'>alert('please fill all the fields')</script>";
+exit();
+}
+else
+{
+$insert_product="insert into shipping(cust_country,cust_state,cust_address,cust_landmark,cust_contact,cust_orderdate)values('$cust_country','$cust_state','$cust_address','$cust_landmark','$cust_contact','NOW()')";
+$run_product=mysql_query($insert_product);
+if($run_product)
+{
+echo "<script>alert('product inserted successfully')</script>";
+}
+}
+}
+?>
+
+
+

@@ -1,9 +1,11 @@
 <?php
 include("includes/db.php");
+session_start();
 include("functions/functions.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
+
+<!doctype html>
+<html>
 <head>
 <title>RENT NOW</title>
 <!-- for-mobile-apps -->
@@ -308,77 +310,65 @@ echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
 		</div>
 	</div>
 <!-- //header -->
-<div id="product_box">
-<?php
-if(isset($_GET['search']))
+<!-- //header -->
+<li> <?php
+if(isset($_SESSION['customer_email']))
 {
-$user_keyword=$_GET['user_query'];
-$get_products="select * from products where product_keywords like '%$user_keyword%'";
-$run_products=mysqli_query($db ,$get_products);
-$count=mysqli_num_rows($run_products);
-if($count==0)
-{
-echo "<h2>no products found in this category!</h2>";
+
+global $db;
+$user=$_SESSION['customer_email'];
+$get_name="select * from customers where customer_email='$user'";
+$run_name=mysqli_query($db,$get_name);
+$row_name=mysqli_fetch_array($run_name);
+$c_id=$row_name['customer_id'];
+$c_name=$row_name['customer_name'];
+
+
+
 }
-while($row_products=mysqli_fetch_array($run_products)){
-$pro_id=$row_products['product_id'];
-$pro_title=$row_products['product_title'];
-$pro_cat=$row_products['cat_id'];
-$pro_item=$row_products['item_id'];
-$pro_desc=$row_products['product_desc'];
-$pro_price=$row_products['product_price'];
-$pro_image=$row_products['product_img1'];
-echo"
-<div id='single_product'>
-<h3>$pro_title</h3>
-<img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
-<p><b>price:$pro_price</b></p>
-<a href='single.php?pro_id=$pro_id' style='float:left;'> details</a>
-<a href='index.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
+
+?> </li>
+
+
+<div class="main_wrapper">
+<div id="header"></div>
+
+
+
+<div class="row">
+<ul id="cats">
+  <div class="col-sm-6"><li><a href="adindex.php?insert_product">INSERT NEW PRODUCT</a></li></div>
+  <div class="col-sm-6"><li><a href="adindex.php?view_products">VIEW ALL PRODUCTS AND THE CUSTOMERS</a></li></div>
+
+</ul>
 </div>
-";
+
+<div id="left">
+<?php
+if(isset($_GET['insert_product']))
+{
+include("admin_area/insprod.php");
 }
+if(isset($_GET['view_products']))
+{
+include("admin_area/view_products.php");
+}
+
+if(isset($_GET['edit_pro']))
+{
+include("edit_pro.php");
+}
+
+if(isset($_GET['view_customers']))
+{
+include("my_customers.php");
+}
+if(isset($_GET['delete_customers']))
+{
+include("admin_area/delete_c.php");
 }
 ?>
-
+ </div>
 </div>
-<!-- footer -->
-	<div class="footer">
-		<div class="container">
-			<div class="footer-grids">
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
-					<h3>Motive</h3>
-					<p>WELCOME TO THE COOLEST RENTING STORE. RENT FROM ANYWHERE ANYTIME ANYTHING.<br>Here you will get best rent prices for all your choices.:)</span></p>
-				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-					<h3>About us</h3>
-					<ul>
-						<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i>MD- Jayshish Ranjan</span></li>
-						<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a>CEO- Alisha Sharan</a></li>
-						<li><i class="glyphicon glyphicon-star-empty" aria-hidden="true"></i>copyright@RENTIT</li>
-					</ul>
-				</div>
-				
-				
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-					<h3>Contact Info</h3>
-					<ul>
-						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>bihar sharif, nalnda, BIHAR, INDIA-803101</span></li>
-						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:rentit96@gmail.com">rentit96.com</a></li>
-						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+91 8609653304<br>+91 8293815049</li>
-					</ul>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-			<div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
-				<h2><a href="index.html">Rent It <span>rent anything</span></a></h2>
-			</div>
-			<div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
-				
-			</div>
-		</div>
-	</div>
-<!-- //footer -->
-
 </body>
 </html>

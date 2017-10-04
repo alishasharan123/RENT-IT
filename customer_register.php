@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("includes/db.php");
 include("functions/functions.php");
 ?>
@@ -308,40 +309,141 @@ echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
 		</div>
 	</div>
 <!-- //header -->
-<div id="product_box">
+<pre>
+
+</pre>
+
 <?php
-if(isset($_GET['search']))
-{
-$user_keyword=$_GET['user_query'];
-$get_products="select * from products where product_keywords like '%$user_keyword%'";
-$run_products=mysqli_query($db ,$get_products);
-$count=mysqli_num_rows($run_products);
-if($count==0)
-{
-echo "<h2>no products found in this category!</h2>";
-}
-while($row_products=mysqli_fetch_array($run_products)){
-$pro_id=$row_products['product_id'];
-$pro_title=$row_products['product_title'];
-$pro_cat=$row_products['cat_id'];
-$pro_item=$row_products['item_id'];
-$pro_desc=$row_products['product_desc'];
-$pro_price=$row_products['product_price'];
-$pro_image=$row_products['product_img1'];
-echo"
-<div id='single_product'>
-<h3>$pro_title</h3>
-<img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
-<p><b>price:$pro_price</b></p>
-<a href='single.php?pro_id=$pro_id' style='float:left;'> details</a>
-<a href='index.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
-</div>
-";
-}
-}
+ $ip=getIp();
 ?>
 
-</div>
+  <form action="customer_register.php" method="post" enctype="multipart/form-data">
+
+<table align="center" width="750">
+<div class="form-group">
+<tr>
+<h1><td><i>CREATE AN ACCOUNT</i></h1></td>
+</tr>
+    
+  
+<div class="form-group">
+<tr>
+
+<td>
+    
+      <label for="name"><h3>NAME:</h3> </label>
+</td>
+<td>
+      <input type="name" class="form-control" name="name" placeholder="Enter name" required>
+</td>
+</tr>
+    </div>
+
+
+<div class="form-group">
+<tr>
+
+<td>
+    
+      <label for="name"><h3>EMAIL:</h3> </label>
+</td>
+<td>
+      <input type="text" class="form-control" name="email" placeholder="Enter email"required>
+</td>
+</tr>
+    </div>
+
+
+<div class="form-group">
+<tr>
+
+<td>
+    
+      <label for="name"><h3>PASSWORD:</h3> </label>
+</td>
+<td>
+      <input type="password" class="form-control" name="pass" placeholder="Enter password"  required>
+</td>
+</tr>
+    </div>
+
+
+<div class="form-group">
+<tr>
+
+<td>
+    
+      <label for="name"><h3>CUSTOMER COUNTRY:</h3> </label>
+</td>
+<td>
+      <input type="TEXT" class="form-control" name="country" placeholder="Enter country"   required>
+</td>
+</tr>
+    </div>
+
+
+
+
+
+
+<div class="form-group">
+<tr>
+
+<td>
+    
+      <label for="name"><h3>CUSTOMER CITY:</h3> </label>
+</td>
+<td>
+      <input type="TEXT" class="form-control" name="city" placeholder="Enter city"  required>
+</td>
+</tr>
+    </div>
+
+
+
+<div class="form-group">
+<tr>
+
+<td>
+    
+      <label for="name"><h3>CUSTOMER CONTACT NO:</h3> </label>
+</td>
+<td>
+      <input type="TEXT" class="form-control" name="contact" placeholder="Enter contact no."  required>
+</td>
+</tr>
+    </div>
+
+
+<div class="form-group">
+<tr>
+
+<td>
+    
+      <label for="name"><h3>CUSTOMER ADDRESS:</h3> </label>
+</td>
+<td><textarea cols="20" rows="10" name="address" required></textarea>
+</td>
+</tr>
+    </div>
+
+
+
+<tr>
+<br>
+<br>
+<br>
+<td><center><input type="submit" name="register" value="create account"/>
+</td>
+</tr>
+
+    </div>
+<table>
+</form>
+<br>
+<br>
+<br>
+<br>
 <!-- footer -->
 	<div class="footer">
 		<div class="container">
@@ -382,3 +484,36 @@ echo"
 
 </body>
 </html>
+<?php
+global $db;
+if(isset($_POST['register']))
+{
+$ip=getIp();
+$c_name=$_POST['name'];
+$c_email=$_POST['email'];
+$c_pass=$_POST['pass'];
+$c_country=$_POST['country'];
+$c_city=$_POST['city'];
+$c_contact=$_POST['contact'];
+$c_address=$_POST['address'];
+
+$insert_c="insert into customers( customer_ip,customer_name,customer_email,customer_pass,customer_country,customer_city,customer_contact,customer_address) values('$ip','$c_name','$c_email','$c_pass','$c_country', '$c_city','$c_contact','$c_address')";
+$run_c=mysqli_query($db,$insert_c);
+
+$sel_cart="select * from cart where ip_add='$ip'";
+$run_cart=mysqli_query($db,$sel_cart);
+$check_cart=mysqli_num_rows($run_cart);
+if($check_cart==0)
+{
+$_SESSION['customer_email']=$c_email;
+echo "<script type='text/javascript'>alert('registration successful')</script>";
+echo "<script type='text/javascript'>window.open('customer/my_account.php', '_self')</script>";
+}
+else
+{
+$_SESSION['customer_email']=$c_email;
+echo "<script type='text/javascript'>alert('registration successful')</script>";
+echo "<script type='text/javascript'>window.open('checkout.php', '_self')</script>";
+}
+}
+?>

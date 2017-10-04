@@ -1,9 +1,18 @@
 <?php
+session_start();
 include("includes/db.php");
 include("functions/functions.php");
 ?>
+
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <title>RENT NOW</title>
 <!-- for-mobile-apps -->
@@ -308,65 +317,272 @@ echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
 		</div>
 	</div>
 <!-- //header -->
-<div id="product_box">
+<!-- breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+				<li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>Home</a></li>
+				<li class="active">Checkout Page</li>
+			</ol>
+		</div>
+	</div>
+<!-- //breadcrumbs -->
+<!-- checkout -->
+	<div class="checkout">
+		<div class="container">
+			<h3 class="animated wow slideInLeft" data-wow-delay=".5s"> Total items selected:<?php total_items()  ?></h3>
+			<div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
+
+
+
+
+
+
+
+
 <?php
-if(isset($_GET['search']))
+ $ip=getIp();
+?>
+<div id="product_box">
+<form action="" method="POST" enctype="multipart/form-data">
+<table align="center" width="700" bgcolor="skyblue">
+
+<?php
+ $total=0;
+$ip=getIp();
+$sel_price="select * from cart where ip_add='$ip'";
+$run_price=mysqli_query($db,$sel_price);
+while($p_price=mysqli_fetch_array($run_price)){
+$pro_id=$p_price['p_id'];
+$pro_price="select * from products where product_id='$pro_id'";
+
+
+$run_pro_price=mysqli_query($db,$pro_price);
+while($pp_price=mysqli_fetch_array($run_pro_price))
 {
-$user_keyword=$_GET['user_query'];
-$get_products="select * from products where product_keywords like '%$user_keyword%'";
-$run_products=mysqli_query($db ,$get_products);
-$count=mysqli_num_rows($run_products);
-if($count==0)
+$product_price=array($pp_price['product_price']);
+$product_title=$pp_price['product_title'];
+$product_image=$pp_price['product_img1'];
+$single_price=$pp_price['product_price'];
+
+$values=array_sum($product_price);
+
+$total+=$values;
+
+?>
+				<table class="timetable_sub">
+					<thead>
+						<tr>
+							
+							<th>Product</th>
+							<th>Quality</th>
+							<th>Product Name</th>
+							<th>Service Charges</th>
+							<th>Price</th>
+							<th>Remove</th>
+						</tr>
+					</thead>
+					<tr class="rem1">
+						
+						<td class="invert-image"><a href="single.html"><img src="admin_area/product_images/<?php echo $product_image;?>" alt=" " class="img-responsive" /></a></td>
+						<td class="invert">
+							 <div class="quantity"> 
+								<div class="quantity-select">                           
+									<div class="entry value-minus">&nbsp;</div>
+									<div class="entry value"><span>1</span></div>
+									<div class="entry value-plus active">&nbsp;</div>
+								</div>
+							</div>
+						</td>
+						<td class="invert"><?php echo $product_title; ?></td>
+						<td class="invert">$5.00</td>
+						<td class="invert"><?php echo "Rs".$single_price; ?></td>
+						<td class="invert">
+						<input type="checkbox"name="remove[]" value="<?php echo $pro_id; ?>"/> 
+						</td>
+
+<td><?php  echo "<a href='ship.php?pro_id=$pro_id'>RENT NOW</a>"; ?></td>
+
+
+
+					</tr>
+<?php
+global $db;
+if(isset($_POST['update_cart']))
 {
-echo "<h2>no products found in this category!</h2>";
+$qty=$_POST['qty'];
+$update_qty="update cart set qty='$qty'";
+$run_qty=mysqli_query($db,$update_qty);
+
+$_SESSION['qty']=$qty;
+
+
+$total=$total*$qty;
 }
-while($row_products=mysqli_fetch_array($run_products)){
-$pro_id=$row_products['product_id'];
-$pro_title=$row_products['product_title'];
-$pro_cat=$row_products['cat_id'];
-$pro_item=$row_products['item_id'];
-$pro_desc=$row_products['product_desc'];
-$pro_price=$row_products['product_price'];
-$pro_image=$row_products['product_img1'];
-echo"
-<div id='single_product'>
-<h3>$pro_title</h3>
-<img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
-<p><b>price:$pro_price</b></p>
-<a href='single.php?pro_id=$pro_id' style='float:left;'> details</a>
-<a href='index.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
-</div>
-";
+
+?>
+<?php 
 }
 }
 ?>
+					
+					
+								<!--quantity-->
+									<script>
+									$('.value-plus').on('click', function(){
+										var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)+1;
+										divUpd.text(newVal);
+									});
 
-</div>
-<!-- footer -->
-	<div class="footer">
+									$('.value-minus').on('click', function(){
+										var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10)-1;
+										if(newVal>=1) divUpd.text(newVal);
+									});
+									</script>
+								<!--quantity-->
+				</table>
+			</div>
+			<div class="checkout-left">	
+				<div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">
+					<input type="submit" name="update_cart"value="update cart"/>
+
+				</div>
+
+
+<?php
+global $db;
+if(isset($_POST['forder']))
+{
+$user=$_SESSION['customer_email'];
+$get_name="select * from shipping where customer_email='$user'";
+$run_name=mysqli_query($db,$get_name);
+$row_name=mysqli_fetch_array($run_name);
+$p_id=$row_name['product_id'];
+$get_p="select * from products where product_id='$p_id'";
+$run_p=mysqli_query($db,$get_p);
+$row_p=mysqli_fetch_array($run_p);
+$p_tit=$row_p['product_title'];
+$p_img=$row_p['product_img1'];
+
+echo $p_tit;
+echo "<br>";
+echo "<img src='product_images/<?php echo $p_img;?>' width='60' height='60'/>";
+}
+?>
+
+
+
+
+
+<?php 
+global $db;
+$ip=getIp();
+if(isset($_POST['update_cart']))
+{
+foreach($_POST['remove']as $remove_id)
+{
+$delete_product="delete from cart where p_id='$remove_id' AND  ip_add='$ip'";
+$run_delete=mysqli_query($db,$delete_product);
+if($run_delete)
+{
+echo "<script>window.open('checkout.php','_self')</script>";
+}
+}
+}
+
+
+?>
+  
+
+
+
+
+				<div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
+					<a href="index.php"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Continue Shopping</a>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+<!-- //checkout -->
+<div class="footer">
 		<div class="container">
 			<div class="footer-grids">
 				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
-					<h3>Motive</h3>
-					<p>WELCOME TO THE COOLEST RENTING STORE. RENT FROM ANYWHERE ANYTIME ANYTHING.<br>Here you will get best rent prices for all your choices.:)</span></p>
+					<h3>About Us</h3>
+					<p>Duis aute irure dolor in reprehenderit in voluptate velit esse.<span>Excepteur sint occaecat cupidatat 
+						non proident, sunt in culpa qui officia deserunt mollit.</span></p>
 				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-					<h3>About us</h3>
-					<ul>
-						<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i>MD- Jayshish Ranjan</span></li>
-						<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a>CEO- Alisha Sharan</a></li>
-						<li><i class="glyphicon glyphicon-star-empty" aria-hidden="true"></i>copyright@RENTIT</li>
-					</ul>
-				</div>
-				
-				
 				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
 					<h3>Contact Info</h3>
 					<ul>
-						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>bihar sharif, nalnda, BIHAR, INDIA-803101</span></li>
-						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:rentit96@gmail.com">rentit96.com</a></li>
-						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+91 8609653304<br>+91 8293815049</li>
+						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>1234k Avenue, 4th block, <span>New York City.</span></li>
+						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:info@example.com">info@example.com</a></li>
+						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 567</li>
 					</ul>
+				</div>
+				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".7s">
+					<h3>Flickr Posts</h3>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/13.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/14.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/15.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/16.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/13.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/14.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/15.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/16.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/13.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/14.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/15.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="footer-grid-left">
+						<a href="single.html"><img src="images/16.jpg" alt=" " class="img-responsive" /></a>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".8s">
+					<h3>Blog Posts</h3>
+					<div class="footer-grid-sub-grids">
+						<div class="footer-grid-sub-grid-left">
+							<a href="single.html"><img src="images/9.jpg" alt=" " class="img-responsive" /></a>
+						</div>
+						<div class="footer-grid-sub-grid-right">
+							<h4><a href="single.html">culpa qui officia deserunt</a></h4>
+							<p>Posted On 25/3/2016</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="footer-grid-sub-grids">
+						<div class="footer-grid-sub-grid-left">
+							<a href="single.html"><img src="images/10.jpg" alt=" " class="img-responsive" /></a>
+						</div>
+						<div class="footer-grid-sub-grid-right">
+							<h4><a href="single.html">Quis autem vel eum iure</a></h4>
+							<p>Posted On 25/3/2016</p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
 				</div>
 				<div class="clearfix"> </div>
 			</div>
@@ -379,6 +595,5 @@ echo"
 		</div>
 	</div>
 <!-- //footer -->
-
 </body>
 </html>

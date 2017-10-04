@@ -1,11 +1,17 @@
 <?php
+session_start();
 include("includes/db.php");
 include("functions/functions.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>RENT NOW</title>
+  <style>
+.header
+{
+color:skyblue;
+}
+</style>
 <!-- for-mobile-apps -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -37,19 +43,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  new WOW().init();
 </script>
 <!-- //animation-effect -->
-
-
-
-
-
-
-
-
-
-
 </head>
-	
 <body>
+
+
+
+
 <!-- header -->
 
 <?php 
@@ -68,7 +67,7 @@ cart();
 <?php
 if(!isset($_SESSION['customer_email']))
 {
-echo "<a href='check.php' style='color:skyblue;'>LOGIN</a>";
+echo "<a href='checkout1.php' style='color:skyblue;'>LOGIN</a>";
 }
 else{
 echo"<a href='logout.php' style='color:skyblue;'>LOGOUT</a>";
@@ -78,17 +77,7 @@ echo"<a href='logout.php' style='color:skyblue;'>LOGOUT</a>";
 
 						<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="customer_register.php">SIGN UP</a></li>
 
-<li><?php
-if(isset($_SESSION['customer_email']))
-{
-echo "<i class='glyphicon glyphicon-book' aria-hidden='true'></i><a href='my_account.php'>MY ACCOUNT</a>";
-}
-else
-{
-echo "<i class='glyphicon glyphicon-book' aria-hidden='true'></i><a href='check.php'>MY ACCOUNT</a>";
-}
-?>
-</li>
+<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="my_account.php">MY ACCOUNT</a></li>
 
 <li> <?php
 if(isset($_SESSION['customer_email']))
@@ -251,16 +240,7 @@ $item_title=$row_item['item_title'];
 								</ul>
 							</li>
 							<li class="dropdown">
-							<li>    <?php
-if(isset($_SESSION['customer_email']))
-{
-echo "<a href='adindex.php'>RENT YOUR ITEMS</a>";
-}
-else
-{
-echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
-}
-?></li>
+							<li><a href="admin_area/index.php">RENT YOUR items</a></li>
 
 						</ul>
 					</div>
@@ -308,77 +288,26 @@ echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
 		</div>
 	</div>
 <!-- //header -->
-<div id="product_box">
+<pre>
+
+</pre>
+
+
 <?php
-if(isset($_GET['search']))
+ echo $ip=getIp();
+?>
+<div id="product_box">
+<?php 
+if(!isset($_SESSION['customer_email']))
 {
-$user_keyword=$_GET['user_query'];
-$get_products="select * from products where product_keywords like '%$user_keyword%'";
-$run_products=mysqli_query($db ,$get_products);
-$count=mysqli_num_rows($run_products);
-if($count==0)
+include("customer_login.php");
+}
+else
 {
-echo "<h2>no products found in this category!</h2>";
-}
-while($row_products=mysqli_fetch_array($run_products)){
-$pro_id=$row_products['product_id'];
-$pro_title=$row_products['product_title'];
-$pro_cat=$row_products['cat_id'];
-$pro_item=$row_products['item_id'];
-$pro_desc=$row_products['product_desc'];
-$pro_price=$row_products['product_price'];
-$pro_image=$row_products['product_img1'];
-echo"
-<div id='single_product'>
-<h3>$pro_title</h3>
-<img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
-<p><b>price:$pro_price</b></p>
-<a href='single.php?pro_id=$pro_id' style='float:left;'> details</a>
-<a href='index.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
-</div>
-";
-}
+include("payment.php");
 }
 ?>
-
 </div>
-<!-- footer -->
-	<div class="footer">
-		<div class="container">
-			<div class="footer-grids">
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
-					<h3>Motive</h3>
-					<p>WELCOME TO THE COOLEST RENTING STORE. RENT FROM ANYWHERE ANYTIME ANYTHING.<br>Here you will get best rent prices for all your choices.:)</span></p>
-				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-					<h3>About us</h3>
-					<ul>
-						<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i>MD- Jayshish Ranjan</span></li>
-						<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a>CEO- Alisha Sharan</a></li>
-						<li><i class="glyphicon glyphicon-star-empty" aria-hidden="true"></i>copyright@RENTIT</li>
-					</ul>
-				</div>
-				
-				
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-					<h3>Contact Info</h3>
-					<ul>
-						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>bihar sharif, nalnda, BIHAR, INDIA-803101</span></li>
-						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:rentit96@gmail.com">rentit96.com</a></li>
-						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+91 8609653304<br>+91 8293815049</li>
-					</ul>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-			<div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
-				<h2><a href="index.html">Rent It <span>rent anything</span></a></h2>
-			</div>
-			<div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
-				
-			</div>
-		</div>
-	</div>
-<!-- //footer -->
 
 </body>
 </html>
