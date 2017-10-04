@@ -1,6 +1,7 @@
 
 
 <?php
+session_start();
 include("includes/db.php");
 ?>
 <!doctype html>
@@ -76,7 +77,7 @@ global $db;
 if(isset($_GET['order']))
 {
 $order_id=$_GET['order'];
- $order_id;
+echo $order_id;
 $get_n="select * from shipping where product_id='$order_id'";
 $run_n=mysql_query($get_n);
 $row_n=mysql_fetch_array($run_n);
@@ -96,10 +97,6 @@ $c_landmark=$row_n['cust_landmark'];
 <td><?php echo $c_contact; ?></td>
 <td><?php echo $c_address; ?></td>
 <td><?php echo $c_landmark; ?></td>
-</tr>
-<tr align="center">
-
-<td><a href="admin_area/delete_c.php?delete_c=<?php echo $c_id; ?>">DELETE</a></td>
 </tr>
 </table>
 </body>

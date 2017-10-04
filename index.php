@@ -1,10 +1,10 @@
 <?php
-session_start();
 include("includes/db.php");
+session_start();
 include("functions/functions.php");
 ?>
 
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
 <title>RENT NOW</title>
@@ -80,17 +80,7 @@ echo"<a href='logout.php' style='color:skyblue;'>LOGOUT</a>";
 
 						<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="customer_register.php">SIGN UP</a></li>
 
-<li><?php
-if(isset($_SESSION['customer_email']))
-{
-echo "<i class='glyphicon glyphicon-book' aria-hidden='true'></i><a href='my_account.php'>MY ACCOUNT</a>";
-}
-else
-{
-echo "<i class='glyphicon glyphicon-book' aria-hidden='true'></i><a href='check.php'>MY ACCOUNT</a>";
-}
-?>
-</li>
+<li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a href="my_account.php">MY ACCOUNT</a></li>
 
 <li> <?php
 if(isset($_SESSION['customer_email']))
@@ -253,16 +243,7 @@ $item_title=$row_item['item_title'];
 								</ul>
 							</li>
 							<li class="dropdown">
-							<li>    <?php
-if(isset($_SESSION['customer_email']))
-{
-echo "<a href='adindex.php'>RENT YOUR ITEMS</a>";
-}
-else
-{
-echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
-}
-?></li>
+							<li><a href="admin_area/index.php">RENT YOUR items</a></li>
 
 						</ul>
 					</div>
@@ -310,269 +291,64 @@ echo "</i><a href='check.php'>RENT YOUR ITEMS</a>";
 		</div>
 	</div>
 <!-- //header -->
-<!-- banner -->
-	<div class="banner">
-		<div class="container">
-			<div class="banner-info animated wow zoomIn" data-wow-delay=".5s">
-				<h3>What's the need of buying!</h3>
-				<h4>When you can Easily Rent<span><i>Almost Anything!</i></span></h4>
-				<div class="wmuSlider example1">
-					<div class="wmuSliderWrapper">
-						<article style="position: absolute; width: 100%; opacity: 0;"> 
-							<div class="banner-wrap">
-								<div class="banner-info1">
-									<p>T-Shirts + Formal Pants + Jewellery + Cosmetics</p>
-								</div>
-							</div>
-						</article>
-						<article style="position: absolute; width: 100%; opacity: 0;"> 
-							<div class="banner-wrap">
-								<div class="banner-info1">
-									<p>Toys + Furniture + Lighting + Watches</p>
-								</div>
-							</div>
-						</article>
-						<article style="position: absolute; width: 100%; opacity: 0;"> 
-							<div class="banner-wrap">
-								<div class="banner-info1">
-									<p>Tops + Books & Media + Sports</p>
-								</div>
-							</div>
-						</article>
-					</div>
-				</div>
-					<script src="js/jquery.wmuSlider.js"></script> 
-					<script>
-						$('.example1').wmuSlider();         
-					</script> 
-			</div>
-		</div>
-	</div>
-<!-- //banner -->
-<!-- banner-bottom -->
-	<div class="banner-bottom">
-		<div class="container"> 
-			<div class="banner-bottom-grids">
-				<div class="banner-bottom-grid-left animated wow slideInLeft" data-wow-delay=".5s">
-					<div class="grid">
-						<figure class="effect-julia">
-							<img src="images/4.jpg" alt=" " class="img-responsive" />
-							<figcaption>
-								<h4>RENT<span>IT</span><i>best store in online renting</i></h4>
-								<div>
-									<p>why buy when you can rent.</p>
-									<p>Easy way of making money from your home.</p>
-									<p>guarrenty of safe & secure renting</p>
-								</div>
-							</figcaption>			
-						</figure>
-					</div>
-				</div>
-				<div class="banner-bottom-grid-left1 animated wow slideInUp" data-wow-delay=".5s">
-					<div class="banner-bottom-grid-left-grid left1-grid grid-left-grid1">
-						<div class="banner-bottom-grid-left-grid1">
-							<img src="images/1.jpg" alt=" " class="img-responsive" />
-						</div>
-						<div class="banner-bottom-grid-left1-pos">
-							<p>Rent@ Rs5 </p>
-						</div>
-					</div>
-					<div class="banner-bottom-grid-left-grid left1-grid grid-left-grid1">
-						<div class="banner-bottom-grid-left-grid1">
-							<img src="images/2.jpg" alt=" " class="img-responsive" />
-						</div>
-						<div class="banner-bottom-grid-left1-position">
-							<div class="banner-bottom-grid-left1-pos1">
-								<p>Latest New Collections</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="banner-bottom-grid-right animated wow slideInRight" data-wow-delay=".5s">
-					<div class="banner-bottom-grid-left-grid grid-left-grid1">
-						<div class="banner-bottom-grid-left-grid1">
-							<img src="images/3.jpg" alt=" " class="img-responsive" />
-						</div>
-						<div class="grid-left-grid1-pos">
-							<p>Huge Collection <span>at best price </span></p>
-						</div>
-					</div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-		</div>
-	</div>
-<!-- //banner-bottom -->
-<!-- collections -->
-	
-	<div class="new-collections">
-		<div class="container">
-			<h3 class="animated wow zoomIn" data-wow-delay=".5s">New Collections</h3>
-			<p class="est animated wow zoomIn" data-wow-delay=".5s">Here we have a wide range of collection to meet your wishes.</p>
-			<div class="new-collections-grids">
-				<div class="col-md-3 new-collections-grid">
-					<div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-						<div class="new-collections-grid1-image">
-							<p class="product-image"><?php getpro(); ?></p>
-							<div class="new-collections-grid1-image-pos">
-								<a>click on details</a>
-							</div>
-							<div class="new-collections-grid1-right">
-								<div class="rating">
-									
-									
-								</div>
-							</div>
-						</div>
-						
-					</div>
-					<div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-						<div class="new-collections-grid1-image">
-							<p class="product-image"><?php getpro(); ?></p>
-							<div class="new-collections-grid1-image-pos">
-								<a>click on details</a>
-							</div>
-							<div class="new-collections-grid1-right">
-								<div class="rating">
-									
-									<div class="clearfix"> </div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 new-collections-grid">
-					<div class="new-collections-grid1 new-collections-grid1-image-width animated wow slideInUp" data-wow-delay=".5s">
-						<div class="new-collections-grid1-image">
-							<a href="" class="product-image"><?php getpro(); ?></a>
-							<div class="new-collections-grid1-image-pos new-collections-grid1-image-pos1">
-								<a>click on details</a>
-							</div>
-							<div class="new-collections-grid1-right new-collections-grid1-right-rate">
-								<div class="rating">
-									
-									<div class="clearfix"> </div>
-								</div>
-							</div>
-							<div class="new-one">
-								<p>New</p>
-							</div>
-						</div>
-						
-					</div>			<div class="new-collections-grid-sub-grids">
-						<div class="new-collections-grid1-sub">
-							<div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-								<div class="new-collections-grid1-image">
-									<a href="" class="product-image"><?php getpro(); ?></a>
-									<div class="new-collections-grid1-image-pos">
-										<a>click on details</a>
-									</div>
-									<div class="new-collections-grid1-right">
-										<div class="rating">
-											
-											<div class="clearfix"> </div>
-										</div>
-									</div>
-								</div>
-								
-							</div>
-						</div>
-						<div class="new-collections-grid1-sub">
-							<div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-								<div class="new-collections-grid1-image">
-									<a href="" class="product-image"><?php getpro(); ?></a>
-									<div class="new-collections-grid1-image-pos">
-										<a>click on details</a>
-									</div>
-									<div class="new-collections-grid1-right">
-										<div class="rating">
-											
-											<div class="clearfix"> </div>
-										</div>
-									</div>
-								</div>
-								
-							</div>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
-				</div>
-				<div class="col-md-3 new-collections-grid">
-					<div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-						<div class="new-collections-grid1-image">
-							<a href="" class="product-image"><?php getpro(); ?></a>
-							<div class="new-collections-grid1-image-pos">
-								<a>click on details</a>
-							</div>
-							<div class="new-collections-grid1-right">
-								<div class="rating">
-									
-									<div class="clearfix"> </div>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-					<div class="new-collections-grid1 animated wow slideInUp" data-wow-delay=".5s">
-						<div class="new-collections-grid1-image">
-							<a href="" class="product-image"><?php getpro(); ?></a>
-							<div class="new-collections-grid1-image-pos">
-								<a>click on details</a>
-							</div>
-							<div class="new-collections-grid1-right">
-								<div class="rating">
-									
-									<div class="clearfix"> </div>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-		</div>
-	</div>
+<li> <?php
+if(isset($_SESSION['customer_email']))
+{
 
-	
-<!-- //collections-bottom -->
-<!-- footer -->
-	<div class="footer">
-		<div class="container">
-			<div class="footer-grids">
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".5s">
-					<h3>Motive</h3>
-					<p>WELCOME TO THE COOLEST RENTING STORE. RENT FROM ANYWHERE ANYTIME ANYTHING.<br>Here you will get best rent prices for all your choices.:)</span></p>
-				</div>
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-					<h3>About us</h3>
-					<ul>
-						<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i>MD- Jayshish Ranjan</span></li>
-						<li><i class="glyphicon glyphicon-user" aria-hidden="true"></i><a>CEO- Alisha Sharan</a></li>
-						<li><i class="glyphicon glyphicon-star-empty" aria-hidden="true"></i>copyright@RENTIT</li>
-					</ul>
-				</div>
-				
-				
-				<div class="col-md-3 footer-grid animated wow slideInLeft" data-wow-delay=".6s">
-					<h3>Contact Info</h3>
-					<ul>
-						<li><i class="glyphicon glyphicon-map-marker" aria-hidden="true"></i>bihar sharif, nalnda, BIHAR, INDIA-803101</span></li>
-						<li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a href="mailto:rentit96@gmail.com">rentit96.com</a></li>
-						<li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+91 8609653304<br>+91 8293815049</li>
-					</ul>
-				</div>
-				<div class="clearfix"> </div>
-			</div>
-			<div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
-				<h2><a href="index.html">Rent It <span>rent anything</span></a></h2>
-			</div>
-			<div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
-				
-			</div>
-		</div>
-	</div>
-<!-- //footer -->
+global $db;
+$user=$_SESSION['customer_email'];
+$get_name="select * from customers where customer_email='$user'";
+$run_name=mysqli_query($db,$get_name);
+$row_name=mysqli_fetch_array($run_name);
+$c_id=$row_name['customer_id'];
+$c_name=$row_name['customer_name'];
+echo "<b style='color: #cc0066;'>WELCOME:</b>".$c_name;
+
+
+}
+else
+{
+echo " <b style='color:skyblue;'>WELCOME GUEST:</b>";
+}
+?> </li>
+
+
+<div class="main_wrapper">
+<div id="header"></div>
+<div id="right">
+<h2 style="text-align:center;">Manage Content</h2>
+<a href="index.php?insert_product">INSERT NEW PRODUCT</a>
+<a href="index.php?view_products">VIEW ALL PRODUCTS</a>
+<a href="index.php?edit_pro">EDIT PRODUCTS</a>
+<a href="index.php?view_customers">VIEW CUSTOMERS</a>
+
+</div>
+<div id="left">
+<?php
+if(isset($_GET['insert_product']))
+{
+include("insprod.php");
+}
+if(isset($_GET['view_products']))
+{
+include("view_products.php");
+}
+
+if(isset($_GET['edit_pro']))
+{
+include("edit_pro.php");
+}
+
+if(isset($_GET['view_customers']))
+{
+include("my_customers.php");
+}
+if(isset($_GET['delete_customers']))
+{
+include("delete_c.php");
+}
+?>
+ </div>
+</div>
 </body>
 </html>
-

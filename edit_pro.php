@@ -140,8 +140,79 @@ input[type=text]:focus {
 <body>
 
 
+<nav class="navbar navbar-inverse navbar-fixed-top" id="my-navbar"> 
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+        <span class="icon-bar"></span>                       
+      </button>
+      <a href="../index.php" class="navbar-brand" style="color: #cc0066;">RENT  NOW</a>
 
 
+
+<li> <?php
+if(isset($_SESSION['customer_email']))
+{
+echo "<b style='color: #cc0066;'>WELCOME:</b>".$_SESSION['customer_email'];
+
+}
+else
+{
+echo " <b style='color:skyblue;'>WELCOME GUEST:</b>";
+}
+?> </li>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="nav navbar-nav">
+        
+
+      </ul>
+<ul class="nav navbar-nav navbar-right">
+
+<?php 
+cart();
+?>
+<?php
+if(!isset($_SESSION['customer_email']))
+{
+echo "<a href='checkout.php' style='color:skyblue;'>LOGIN</a>";
+}
+else{
+echo"<a href='logout.php' style='color:skyblue;'>LOGOUT</a>";
+}
+?>
+
+        <li><a href="../cart.php">MY  CART</a></li>
+
+        <li><a href="../cart.php">TOTAL ITEMS: <?php total_items()  ?>    </a></li>
+<li><a href="../cart.php" >TOTAL PRICE: <?php total_price()  ?>    </a></li>
+        <li><a href="../customer/my_account.php" >MY ACCOUNT</a></li>
+ <li><a href="../customer_register.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li> 
+			
+
+
+
+          
+
+}
+?>
+
+
+
+    </ul>
+
+
+
+
+</nav>
+<div id="form" style="padding:20px;margin-top:30px;">
+
+<input type="text" name="user_query" placeholder="search a product"/>
+<button class="button" name="search" ><span>SEARCH</span></button
+</form>
+</div>
 
 <form method="POST" action="" enctype="multipart/form-data">
 <table width="795" align="center" border="2" bgcolor="#336633">

@@ -24,7 +24,7 @@ echo"
 <h3>$pro_title</h3>
 <img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
 <p><b>price:$pro_price</b></p>
-<a href='det1.php?pro_id=$pro_id' style='float:left;'> details</a>
+<a href='details.php?pro_id=$pro_id' style='float:left;'> details</a>
 <a href='index.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
 </div>
 ";
@@ -59,8 +59,8 @@ echo"
 <h3>$pro_title</h3>
 <img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
 <p><b>price:$pro_price</b></p>
-<a href='det1.php?pro_id=$pro_id' style='float:left;'> details</a>
-<a href='cart.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
+<a href='details.php?pro_id=$pro_id' style='float:left;'> details</a>
+<a href='com.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
 </div>
 ";
 
@@ -96,8 +96,8 @@ echo"
 <b><h3>$pro_title</h3></b>
 <img src='admin_area/product_images/$pro_image' width='180' height='180'/><br>
 <p><b>price:$pro_price</b></p>
-<a href='det1.php?pro_id=$pro_id' style='float:left;'> details</a>
-<a href='cart.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
+<a href='details.php?pro_id=$pro_id' style='float:left;'> details</a>
+<a href='index.php?add_cart=$pro_id'><button style='float:right;'>ADD TO CART</button></a>
 </div>
 ";
 }
@@ -122,7 +122,7 @@ $item_title=$row_item['item_title'];
 
 
 
-        echo "<li><a href='index.php?item=$item_id'>$item_title</a></li>";
+        echo "<li><a href='com.php?item=$item_id'>$item_title</a></li>";
 }
 }
 echo"get item";
